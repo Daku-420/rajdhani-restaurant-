@@ -1,0 +1,1 @@
+Place your 114 menu photos into this directory (c:\Rajdhani restaurant\public\images\) or tell me the folder path on your computer where they are saved, and I will link all 114 images directly to the menu items!

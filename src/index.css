@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-bg-sand: #EAE6DF;
+  --color-bg-sand-light: #F4F1EC;
+  --color-card-white: #FFFFFF;
+  --color-terracotta: #E05A47;
+  --color-terracotta-dark: #C84634;
+  --color-terracotta-light: #F8ECE9;
+  --color-mustard: #E5A653;
+  --color-mustard-light: #FDF4E7;
+  --color-charcoal: #1A1A1A;
+  --color-charcoal-light: #2A2A2A;
+  --color-text-dark: #1A1A1A;
+  --color-text-muted: #66635D;
+  
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  --radius-bento: 28px;
+  --radius-pill: 9999px;
+  --shadow-bento: 0 10px 30px -5px rgba(26, 26, 26, 0.06);
+  --shadow-bento-hover: 0 18px 40px -6px rgba(26, 26, 26, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-body);
+  background-color: var(--color-bg-sand);
+  color: var(--color-text-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #EAE6DF;
+}
+::-webkit-scrollbar-thumb {
+  background: #E05A47;
+  border-radius: 4px;
+}
+
+/* Pill Buttons */
+.btn-pill-terracotta {
+  background-color: var(--color-terracotta);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+.btn-pill-terracotta:hover {
+  background-color: var(--color-terracotta-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(224, 90, 71, 0.35);
+}
+
+.btn-pill-charcoal {
+  background-color: var(--color-charcoal);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+.btn-pill-charcoal:hover {
+  background-color: #333333;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(26, 26, 26, 0.25);
+}
+
+.btn-pill-light {
+  background-color: #FFFFFF;
+  color: var(--color-charcoal);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(26, 26, 26, 0.1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.btn-pill-light:hover {
+  background-color: var(--color-bg-sand-light);
+  transform: translateY(-2px);
+}
+
+/* Bento Card Base & Variations */
+.bento-card {
+  border-radius: var(--radius-bento);
+  padding: 28px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-bento);
+}
+.bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-bento-hover);
+}
+
+.bento-white {
+  background-color: #FFFFFF;
+  color: var(--color-charcoal);
+}
+
+.bento-terracotta {
+  background-color: var(--color-terracotta);
+  color: #FFFFFF;
+}
+
+.bento-mustard {
+  background-color: var(--color-mustard);
+  color: var(--color-charcoal);
+}
+
+.bento-charcoal {
+  background-color: var(--color-charcoal);
+  color: #FFFFFF;
+}
+
+.bento-sand {
+  background-color: #F4F1EC;
+  color: var(--color-charcoal);
+}
+
+/* Dietary Dot Indicators */
+.badge-veg {
+  border: 1.5px solid #16A34A;
+  padding: 2px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.badge-veg-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #16A34A;
+  border-radius: 50%;
+}
+
+.badge-nonveg {
+  border: 1.5px solid #DC2626;
+  padding: 2px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.badge-nonveg-dot {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 9px solid #DC2626;
+}
+
+/* Dish Card Hover Pop & Quick Detail Modal */
+.dish-hover-card {
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  cursor: pointer;
+}
+.dish-hover-card:hover {
+  transform: translateY(-10px) scale(1.025) !important;
+  box-shadow: 0 24px 50px -10px rgba(26, 26, 26, 0.22) !important;
+  z-index: 5;
+}
+
+.quick-view-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  border-radius: 20px;
+}
+.dish-hover-card:hover .quick-view-overlay {
+  opacity: 1;
+}
+
+@keyframes dishPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.88) translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.dish-popup-card {
+  animation: dishPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+@media (min-width: 769px) {
+  .show-mobile-only {
+    display: none !important;
+  }
+}
+
