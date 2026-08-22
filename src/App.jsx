@@ -1,135 +1,82 @@
 import React, { useState } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import MenuSection from './components/MenuSection';
-import CateringSection from './components/CateringSection';
-import ContactSection from './components/ContactSection';
-import Footer from './components/Footer';
-import TableReservationModal from './components/TableReservationModal';
-import CartDrawer from './components/CartDrawer';
-import Toast from './components/Toast';
-import { MessageCircle } from 'lucide-react';
-import { RESTAURANT_INFO } from './data/menuData';
+import { Navbar } from './components/Navbar';
+import { HeroSection } from './components/HeroSection';
+import { StatsBar } from './components/StatsBar';
+import { CoursesSection } from './components/CoursesSection';
+import { WealthCalculator } from './components/WealthCalculator';
+import { TelegramVIPSection } from './components/TelegramVIPSection';
+import { ValuePropsSection } from './components/ValuePropsSection';
+import { ReviewsSection } from './components/ReviewsSection';
+import { PricingSection } from './components/PricingSection';
+import { FAQSection } from './components/FAQSection';
+import { Footer } from './components/Footer';
+import { Modals } from './components/Modals';
+import { PRICING_TIERS } from './data/coursesData';
 
-export default function App() {
-  const [cartItems, setCartItems] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+export function App() {
+  const [masterclassOpen, setMasterclassOpen] = useState(false);
+  const [syllabusCourse, setSyllabusCourse] = useState(null);
+  const [enrollTier, setEnrollTier] = useState(null);
 
-  const showToast = (msg) => {
-    setToastMessage(msg);
+  const handleOpenEnroll = (tier = null) => {
+    setEnrollTier(tier || PRICING_TIERS[1]); // Default to Pro Trader tier
   };
-
-  const handleAddToCart = (item) => {
-    setCartItems((prev) => {
-      const existing = prev.find((i) => i.id === item.id);
-      if (existing) {
-        return prev.map((i) => (i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i));
-      }
-      return [...prev, { ...item, quantity: 1 }];
-    });
-    showToast(`Added "${item.name}" to your cart! 🛒`);
-  };
-
-  const handleUpdateQuantity = (id, delta) => {
-    setCartItems((prev) => {
-      return prev
-        .map((item) => {
-          if (item.id === id) {
-            const newQty = item.quantity + delta;
-            return newQty > 0 ? { ...item, quantity: newQty } : null;
-          }
-          return item;
-        })
-        .filter(Boolean);
-    });
-  };
-
-  const handleRemoveItem = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-    showToast('Item removed from cart');
-  };
-
-  const handleClearCart = () => {
-    setCartItems([]);
-    showToast('Cart cleared');
-  };
-
-  const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#FAF6F0', color: '#1C1917' }}>
-      {/* Sticky Header Navbar */}
+    <div className="min-h-screen bg-slate-50 font-body text-slate-900 selection:bg-[#00A3FF] selection:text-white">
+      
+      {/* Sticky Header Navigation */}
       <Navbar
-        cartCount={totalCartCount}
-        onOpenCart={() => setIsCartOpen(true)}
-        onOpenBooking={() => setIsBookingOpen(true)}
+        onOpenEnroll={() => handleOpenEnroll()}
+        onOpenMasterclass={() => setMasterclassOpen(true)}
       />
 
-      {/* Hero Section */}
-      <Hero onOpenBooking={() => setIsBookingOpen(true)} />
+      {/* Main Content Sections */}
+      <main>
+        <HeroSection
+          onOpenEnroll={() => handleOpenEnroll()}
+          onOpenMasterclass={() => setMasterclassOpen(true)}
+        />
 
-      {/* Interactive Menu Section */}
-      <MenuSection onAddToCart={handleAddToCart} cartItems={cartItems} showToast={showToast} />
+        <StatsBar />
 
-      {/* Outdoor & Grand Event Catering Section */}
-      <CateringSection />
+        <CoursesSection
+          onOpenSyllabus={(course) => setSyllabusCourse(course)}
+          onOpenEnroll={(course) => handleOpenEnroll(PRICING_TIERS[1])}
+        />
 
-      {/* Location & Contact Section */}
-      <ContactSection showToast={showToast} />
+        <WealthCalculator
+          onOpenEnroll={() => handleOpenEnroll()}
+        />
+
+        <TelegramVIPSection />
+
+        <ValuePropsSection />
+
+        <ReviewsSection />
+
+        <PricingSection
+          onOpenEnroll={(tier) => handleOpenEnroll(tier)}
+        />
+
+        <FAQSection />
+      </main>
 
       {/* Footer */}
-      <Footer onOpenBooking={() => setIsBookingOpen(true)} />
+      <Footer />
 
-      {/* Floating WhatsApp Quick Order Button */}
-      <a
-        href={`https://wa.me/${RESTAURANT_INFO.whatsapp}?text=${encodeURIComponent('Hi Rajdhani Restaurant! 👋 I would like to place a food order or inquire about your menu.')}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          position: 'fixed',
-          bottom: '28px',
-          left: '28px',
-          backgroundColor: '#25D366',
-          color: '#FFFFFF',
-          padding: '12px 20px',
-          borderRadius: '30px',
-          boxShadow: '0 8px 24px rgba(37, 211, 102, 0.4)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          zIndex: 90,
-          textDecoration: 'none',
-          fontWeight: '800',
-          fontFamily: 'var(--font-heading)',
-          fontSize: '0.9rem',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-        }}
-      >
-        <MessageCircle size={20} />
-        <span className="hide-mobile">Order on WhatsApp</span>
-      </a>
-
-      {/* Cart Drawer */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-        onClearCart={handleClearCart}
+      {/* Global Modals */}
+      <Modals
+        masterclassOpen={masterclassOpen}
+        onCloseMasterclass={() => setMasterclassOpen(false)}
+        syllabusCourse={syllabusCourse}
+        onCloseSyllabus={() => setSyllabusCourse(null)}
+        enrollTier={enrollTier}
+        onCloseEnroll={() => setEnrollTier(null)}
       />
 
-      {/* Table Reservation Modal */}
-      <TableReservationModal
-        isOpen={isBookingOpen}
-        onClose={() => setIsBookingOpen(false)}
-        showToast={showToast}
-      />
-
-      {/* Toast Notification */}
-      <Toast message={toastMessage} onClose={() => setToastMessage('')} />
     </div>
   );
 }
+
+export default App;

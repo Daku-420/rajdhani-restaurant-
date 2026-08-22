@@ -1,6 +1,7 @@
 import React from 'react';
 import { UtensilsCrossed, Calendar, Search, ArrowUpRight, Star, Sparkles, MapPin, ChevronRight, MessageCircle } from 'lucide-react';
 import { RESTAURANT_INFO } from '../data/menuData';
+import { getDishAsset } from '../assets/images';
 
 const STRIP_CATEGORIES = [
   { id: 'rajdhani-specials', title: 'Rajdhani Signatures', tag: 'Special Chicken & Paneer', image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=150&q=80' },
@@ -135,8 +136,8 @@ export default function Hero({ onOpenBooking }) {
               {/* Dish Showcase Image */}
               <div style={{ borderRadius: '28px', overflow: 'hidden', height: '420px', position: 'relative' }}>
                 <img
-                  src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80"
-                  alt="Rajdhani Special Multicuisine Feast"
+                  src={getDishAsset('rajdhani_storefront.jpg')}
+                  alt="Rajdhani Restaurant Seemadwar Storefront"
                   style={{
                     width: '100%',
                     height: '100%',

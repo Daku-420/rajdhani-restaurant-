@@ -1,26 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
 :root {
-  --color-bg-sand: #EAE6DF;
-  --color-bg-sand-light: #F4F1EC;
-  --color-card-white: #FFFFFF;
-  --color-terracotta: #E05A47;
-  --color-terracotta-dark: #C84634;
-  --color-terracotta-light: #F8ECE9;
-  --color-mustard: #E5A653;
-  --color-mustard-light: #FDF4E7;
-  --color-charcoal: #1A1A1A;
-  --color-charcoal-light: #2A2A2A;
-  --color-text-dark: #1A1A1A;
-  --color-text-muted: #66635D;
+  --color-primary-blue: #00A3FF;
+  --color-primary-blue-dark: #0088FF;
+  --color-primary-blue-light: #38BDF8;
+  --color-navy-dark: #0F172A;
+  --color-navy-card: #1E2246;
+  --color-navy-accent: #1E1B4B;
+  --color-bg-light: #FFFFFF;
+  --color-bg-slate: #F8FAFC;
+  --color-text-main: #0F172A;
+  --color-text-muted: #64748B;
+  --color-accent-green: #10B981;
+  --color-telegram: #229ED9;
   
   --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-full: 9999px;
   
-  --radius-bento: 28px;
-  --radius-pill: 9999px;
-  --shadow-bento: 0 10px 30px -5px rgba(26, 26, 26, 0.06);
-  --shadow-bento-hover: 0 18px 40px -6px rgba(26, 26, 26, 0.12);
+  --shadow-subtle: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
+  --shadow-glow: 0 0 25px rgba(0, 163, 255, 0.25);
+  --shadow-hover: 0 20px 40px -15px rgba(0, 163, 255, 0.2);
 }
 
 * {
@@ -32,8 +35,8 @@
 html {
   scroll-behavior: smooth;
   font-family: var(--font-body);
-  background-color: var(--color-bg-sand);
-  color: var(--color-text-dark);
+  background-color: var(--color-bg-light);
+  color: var(--color-text-main);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -43,207 +46,155 @@ body {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 9px;
 }
 ::-webkit-scrollbar-track {
-  background: #EAE6DF;
+  background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #E05A47;
-  border-radius: 4px;
+  background: #00A3FF;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0088FF;
 }
 
-/* Pill Buttons */
-.btn-pill-terracotta {
-  background-color: var(--color-terracotta);
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Glassmorphic Navbar */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #00A3FF 0%, #0077FF 100%);
   color: #FFFFFF;
   font-family: var(--font-heading);
   font-weight: 700;
-  padding: 12px 28px;
-  border-radius: var(--radius-pill);
+  padding: 13px 28px;
+  border-radius: var(--radius-full);
   border: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 0.95rem;
-  text-decoration: none;
-}
-.btn-pill-terracotta:hover {
-  background-color: var(--color-terracotta-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(224, 90, 71, 0.35);
-}
-
-.btn-pill-charcoal {
-  background-color: var(--color-charcoal);
-  color: #FFFFFF;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  padding: 12px 28px;
-  border-radius: var(--radius-pill);
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.25s ease;
-  font-size: 0.95rem;
-  text-decoration: none;
-}
-.btn-pill-charcoal:hover {
-  background-color: #333333;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(26, 26, 26, 0.25);
-}
-
-.btn-pill-light {
-  background-color: #FFFFFF;
-  color: var(--color-charcoal);
-  font-family: var(--font-heading);
-  font-weight: 700;
-  padding: 10px 24px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(26, 26, 26, 0.1);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.25s ease;
-  font-size: 0.9rem;
-  text-decoration: none;
-}
-.btn-pill-light:hover {
-  background-color: var(--color-bg-sand-light);
-  transform: translateY(-2px);
-}
-
-/* Bento Card Base & Variations */
-.bento-card {
-  border-radius: var(--radius-bento);
-  padding: 28px;
+  gap: 10px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(0, 163, 255, 0.35);
   position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow-bento);
+  text-decoration: none;
 }
-.bento-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-bento-hover);
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 163, 255, 0.5);
 }
-
-.bento-white {
-  background-color: #FFFFFF;
-  color: var(--color-charcoal);
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: rotate(30deg) translateY(-100%);
+  transition: transform 0.6s ease;
 }
-
-.bento-terracotta {
-  background-color: var(--color-terracotta);
-  color: #FFFFFF;
-}
-
-.bento-mustard {
-  background-color: var(--color-mustard);
-  color: var(--color-charcoal);
-}
-
-.bento-charcoal {
-  background-color: var(--color-charcoal);
-  color: #FFFFFF;
+.btn-primary:hover::after {
+  transform: rotate(30deg) translateY(100%);
 }
 
-.bento-sand {
-  background-color: #F4F1EC;
-  color: var(--color-charcoal);
-}
-
-/* Dietary Dot Indicators */
-.badge-veg {
-  border: 1.5px solid #16A34A;
-  padding: 2px;
-  border-radius: 4px;
+.btn-secondary {
+  background: #FFFFFF;
+  color: #0F172A;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  padding: 12px 26px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid #E2E8F0;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+  transition: all 0.25s ease;
+  text-decoration: none;
 }
-.badge-veg-dot {
-  width: 8px;
-  height: 8px;
-  background-color: #16A34A;
-  border-radius: 50%;
+.btn-secondary:hover {
+  border-color: #00A3FF;
+  color: #00A3FF;
+  background: #F0F9FF;
+  transform: translateY(-2px);
 }
 
-.badge-nonveg {
-  border: 1.5px solid #DC2626;
-  padding: 2px;
-  border-radius: 4px;
+.btn-telegram {
+  background: linear-gradient(135deg, #0088CC 0%, #229ED9 100%);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  padding: 13px 28px;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(34, 158, 217, 0.35);
+  text-decoration: none;
 }
-.badge-nonveg-dot {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 9px solid #DC2626;
+.btn-telegram:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(34, 158, 217, 0.5);
 }
 
-/* Dish Card Hover Pop & Quick Detail Modal */
-.dish-hover-card {
-  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+/* Card Modern Hover Effects */
+.card-hover {
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.12);
+}
+
+/* Glowing Border Card */
+.glow-card {
+  position: relative;
+  background: #1E2246;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(0, 163, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.5), 0 0 20px rgba(0, 163, 255, 0.15);
+}
+
+/* Custom Range Slider */
+input[type=range] {
+  accent-color: #00A3FF;
   cursor: pointer;
 }
-.dish-hover-card:hover {
-  transform: translateY(-10px) scale(1.025) !important;
-  box-shadow: 0 24px 50px -10px rgba(26, 26, 26, 0.22) !important;
-  z-index: 5;
+
+/* Keyframe Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
 }
 
-.quick-view-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(26, 26, 26, 0.45);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  border-radius: 20px;
-}
-.dish-hover-card:hover .quick-view-overlay {
-  opacity: 1;
+.animate-float-slow {
+  animation: float 4s ease-in-out infinite;
 }
 
-@keyframes dishPopIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.88) translateY(24px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.03); }
 }
 
-.dish-popup-card {
-  animation: dishPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
 }
-
-/* Responsive Utilities */
-@media (max-width: 768px) {
-  .hide-mobile {
-    display: none !important;
-  }
-}
-@media (min-width: 769px) {
-  .show-mobile-only {
-    display: none !important;
-  }
-}
-
