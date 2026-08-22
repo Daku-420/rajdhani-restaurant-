@@ -1,148 +1,297 @@
-import React, { useState, useEffect } from 'react';
-import { Logo } from './Logo';
-import { Send, Menu, X, ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
-import { TELEGRAM_LINK } from '../data/coursesData';
+import React, { useState, useEffect, useRef } from 'react';
+import { ShoppingBag, Calendar, Phone, Menu as MenuIcon, X, MapPin, ChevronDown, MessageCircle } from 'lucide-react';
+import { RESTAURANT_INFO } from '../data/menuData';
 
-export function Navbar({ onOpenEnroll, onOpenMasterclass }) {
-  const [scrolled, setScrolled] = useState(false);
+export default function Navbar({ cartCount, onOpenCart, onOpenBooking }) {
+  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [contactDropdownOpen, setContactDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: "Courses", href: "#courses" },
-    { name: "SIP Calculator", href: "#calculator" },
-    { name: "Telegram VIP", href: "#telegram-vip", isTelegram: true },
-    { name: "Mentorship", href: "#value-props" },
-    { name: "Reviews", href: "#reviews" },
-    { name: "FAQ", href: "#faq" }
-  ];
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setContactDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'glass-nav py-3 shadow-md' : 'bg-transparent py-5'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        
+    <header style={{
+      position: 'sticky',
+      top: 0,
+      zIndex: 100,
+      backgroundColor: isScrolled ? 'rgba(234, 230, 223, 0.96)' : '#EAE6DF',
+      backdropFilter: 'blur(12px)',
+      borderBottom: '1px solid rgba(26, 26, 26, 0.08)',
+      transition: 'all 0.3s ease'
+    }}>
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: '14px 24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
         {/* Brand Logo */}
-        <a href="#" className="flex items-center gap-2">
-          <Logo />
+        <a href="#hero" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+            backgroundColor: '#1A1A1A',
+            color: '#FFFFFF',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'var(--font-heading)',
+            fontWeight: '800',
+            fontSize: '1.2rem'
+          }}>
+            R
+          </div>
+          <div>
+            <div style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: '1.45rem',
+              fontWeight: '800',
+              color: '#1A1A1A',
+              letterSpacing: '-0.5px',
+              lineHeight: 1
+            }}>
+              Rajdhani
+            </div>
+            <div style={{
+              fontSize: '0.65rem',
+              color: '#E05A47',
+              fontWeight: '700',
+              letterSpacing: '1px',
+              textTransform: 'uppercase'
+            }}>
+              DEHRADUN • EST. 2012
+            </div>
+          </div>
         </a>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-7">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className={`text-sm font-semibold transition-colors duration-200 flex items-center gap-1.5 ${
-                link.isTelegram
-                  ? 'text-[#0088CC] hover:text-[#00A3FF] bg-[#0088CC]/10 px-3 py-1 rounded-full border border-[#0088CC]/20'
-                  : 'text-slate-600 hover:text-[#00A3FF]'
-              }`}
+        {/* Center Nav Links */}
+        <nav style={{ display: 'flex', gap: '32px', alignItems: 'center' }} className="hide-mobile">
+          <a href="#hero" className="nav-link-modern">Home</a>
+          <a href="#menu" className="nav-link-modern">Menu</a>
+          <a href="#catering" className="nav-link-modern" style={{ color: '#E05A47', fontWeight: '800' }}>Catering ✨</a>
+          
+          {/* Contact Click-to-Toggle Dropdown */}
+          <div ref={dropdownRef} style={{ position: 'relative' }}>
+            <button
+              onClick={() => setContactDropdownOpen(!contactDropdownOpen)}
+              className="nav-link-modern"
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                fontSize: '0.95rem',
+                padding: '4px 0',
+                outline: 'none'
+              }}
             >
-              {link.isTelegram && (
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0088CC]"></span>
-                </span>
-              )}
-              {link.name}
-            </a>
-          ))}
+              <span>Contact</span>
+              <ChevronDown size={14} style={{ transform: contactDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }} />
+            </button>
+
+            {contactDropdownOpen && (
+              <div style={{
+                position: 'absolute',
+                top: 'calc(100% + 8px)',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: '#FFFFFF',
+                borderRadius: '16px',
+                padding: '8px',
+                boxShadow: '0 14px 35px rgba(26, 26, 26, 0.18)',
+                border: '1px solid #EAE6DF',
+                minWidth: '210px',
+                zIndex: 300,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '4px'
+              }}>
+                <a
+                  href={`tel:${RESTAURANT_INFO.phones[0]}`}
+                  onClick={() => setContactDropdownOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '10px 14px',
+                    borderRadius: '12px',
+                    textDecoration: 'none',
+                    color: '#1A1A1A',
+                    fontFamily: 'var(--font-heading)',
+                    fontWeight: '700',
+                    fontSize: '0.88rem',
+                    transition: 'background-color 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F4F1EC'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  <div style={{ width: '30px', height: '30px', borderRadius: '50%', backgroundColor: '#F8ECE9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Phone size={14} color="#E05A47" />
+                  </div>
+                  <span>Call Us</span>
+                </a>
+
+                <a
+                  href={`https://wa.me/${RESTAURANT_INFO.whatsapp}?text=${encodeURIComponent('Hi Rajdhani Restaurant! 👋 I would like to place an order.')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setContactDropdownOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '10px 14px',
+                    borderRadius: '12px',
+                    textDecoration: 'none',
+                    color: '#1A1A1A',
+                    fontFamily: 'var(--font-heading)',
+                    fontWeight: '700',
+                    fontSize: '0.88rem',
+                    transition: 'background-color 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#DCFCE7'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  <div style={{ width: '30px', height: '30px', borderRadius: '50%', backgroundColor: '#25D366', color: '#FFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <MessageCircle size={14} />
+                  </div>
+                  <span>WhatsApp</span>
+                </a>
+
+                <a
+                  href="#contact"
+                  onClick={() => setContactDropdownOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '10px 14px',
+                    borderRadius: '12px',
+                    textDecoration: 'none',
+                    color: '#66635D',
+                    fontFamily: 'var(--font-heading)',
+                    fontWeight: '600',
+                    fontSize: '0.85rem'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F4F1EC'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  <div style={{ width: '30px', height: '30px', borderRadius: '50%', backgroundColor: '#F4F1EC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <MapPin size={14} color="#66635D" />
+                  </div>
+                  <span>Location & Hours</span>
+                </a>
+              </div>
+            )}
+          </div>
         </nav>
 
-        {/* Action CTAs */}
-        <div className="hidden md:flex items-center gap-3">
-          <a
-            href={TELEGRAM_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs font-bold text-[#0088CC] hover:text-[#00A3FF] flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-[#0088CC]/30 hover:border-[#0088CC] transition-all bg-[#0088CC]/5"
-          >
-            <Send className="w-3.5 h-3.5" />
-            VIP Telegram
-          </a>
-
-          <button
-            onClick={() => onOpenEnroll()}
-            className="btn-primary text-sm py-2.5 px-6 shadow-md"
-          >
-            <span>Enroll Now</span>
-            <ArrowRight className="w-4 h-4" />
+        {/* Right Actions */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button onClick={onOpenBooking} className="btn-pill-charcoal" style={{ padding: '9px 20px', fontSize: '0.85rem' }}>
+            <Calendar size={15} />
+            <span>Book Table</span>
           </button>
-        </div>
 
-        {/* Mobile Menu Toggle Button */}
-        <div className="flex md:hidden items-center gap-2">
+          {/* Cart Pill Button */}
           <button
-            onClick={() => onOpenEnroll()}
-            className="btn-primary text-xs py-2 px-4 shadow-sm"
+            onClick={onOpenCart}
+            className="btn-pill-terracotta"
+            style={{ padding: '9px 18px', fontSize: '0.85rem', position: 'relative' }}
           >
-            Enroll
+            <ShoppingBag size={16} />
+            <span>Cart</span>
+            {cartCount > 0 && (
+              <span style={{
+                backgroundColor: '#1A1A1A',
+                color: '#FFFFFF',
+                fontSize: '0.75rem',
+                fontWeight: '800',
+                padding: '2px 7px',
+                borderRadius: '12px',
+                marginLeft: '4px'
+              }}>
+                {cartCount}
+              </span>
+            )}
           </button>
-          
+
+          {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors"
-            aria-label="Toggle menu"
+            className="show-mobile-only"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#1A1A1A' }}
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X size={26} /> : <MenuIcon size={26} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Nav Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden glass-nav border-b border-slate-200 px-6 py-6 space-y-4 animate-in slide-in-from-top duration-300">
-          <div className="flex flex-col space-y-3">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`text-base font-semibold py-2 flex items-center justify-between border-b border-slate-100 ${
-                  link.isTelegram ? 'text-[#0088CC]' : 'text-slate-800'
-                }`}
-              >
-                <span>{link.name}</span>
-                {link.isTelegram && (
-                  <span className="bg-[#0088CC] text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
-                    <Send className="w-2.5 h-2.5" /> Join Free
-                  </span>
-                )}
-              </a>
-            ))}
-          </div>
-
-          <div className="pt-2 flex flex-col gap-2.5">
-            <a
-              href={TELEGRAM_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-telegram w-full justify-center text-sm py-3"
-            >
-              <Send className="w-4 h-4" />
-              Join Official Telegram VIP
-            </a>
-            
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenEnroll();
-              }}
-              className="btn-primary w-full justify-center text-sm py-3"
-            >
-              <span>Enroll Now & Access Courses</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
+        <div style={{
+          backgroundColor: '#1A1A1A',
+          color: '#FFFFFF',
+          padding: '24px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px'
+        }}>
+          <a href="#hero" onClick={() => setMobileMenuOpen(false)} style={mobileNavStyle}>Home</a>
+          <a href="#menu" onClick={() => setMobileMenuOpen(false)} style={mobileNavStyle}>Full Menu</a>
+          <a href="#catering" onClick={() => setMobileMenuOpen(false)} style={mobileNavStyle}>Catering ✨</a>
+          <a href={`tel:${RESTAURANT_INFO.phones[0]}`} onClick={() => setMobileMenuOpen(false)} style={mobileNavStyle}>📞 Call Us</a>
+          <a href={`https://wa.me/${RESTAURANT_INFO.whatsapp}`} target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} style={mobileNavStyle}>💬 WhatsApp Order</a>
+          <a href="#contact" onClick={() => setMobileMenuOpen(false)} style={mobileNavStyle}>Location & Hours</a>
         </div>
       )}
+
+      <style>{`
+        .nav-link-modern {
+          color: #1A1A1A;
+          text-decoration: none;
+          font-family: var(--font-heading);
+          font-weight: 600;
+          font-size: 0.95rem;
+          transition: color 0.2s ease;
+        }
+        .nav-link-modern:hover {
+          color: #E05A47;
+        }
+      `}</style>
     </header>
   );
 }
+
+const mobileNavStyle = {
+  color: '#FFFFFF',
+  textDecoration: 'none',
+  fontSize: '1.1rem',
+  fontFamily: 'var(--font-heading)',
+  fontWeight: '600',
+  padding: '8px 0',
+  borderBottom: '1px solid rgba(255,255,255,0.1)'
+};
